@@ -1,0 +1,56 @@
+---
+layout: default
+
+---
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+<div class="playpost">
+  <header class="post-header">
+    <div class="row">
+      <div class="small-12 small-centered columns">
+        <h1 class="post-title" itemprop="name headline"><a href="http://new-in-town.uk/play/#allposts">Play // </a>{{ page.title | escape }}</h1>
+        <p class="play-date"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}</p>
+        {% if page.categories %}
+        {% assign catscount = (page.categories | size) | minus:1 %}
+          <p class="play-cats">
+            {% assign x = 0 %}
+            {% for category in page.categories %}
+            {% if x == catscount %}
+              <a href="http://new-in-town.uk/play/#{{ category | remove:' ' }}">
+              {{category}}
+              </a>
+            {% else %}
+              <a href="http://new-in-town.uk/play/#{{ category | remove:' ' }}">
+              {{category}}
+              </a>
+              <span> // </span>
+            {% endif %}
+            {% assign x = x | plus: 1 %}
+            {% endfor %}
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <div class="row proj">
+    <div class="small-12 small-centered columns">
+      <div class="proj-text">
+          {% if page.img %}
+          <div class="post-header-img">
+            <img src="{{ site.baseurl | append:page.img}}" />
+          </div>
+          {% endif %}
+          <p>{{ page.face }}</p>
+        <div class="post-content" itemprop="articleBody">
+          {{ content }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  {% if site.disqus.shortname %}
+    {% include disqus_comments.html %}
+  {% endif %}
+</article>

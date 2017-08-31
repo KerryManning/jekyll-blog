@@ -1,0 +1,8 @@
+<div class="play-thumb" >
+	<a href="{{ post.url | relative_url }}">
+	    <img src="{{ site.baseurl }}{{ post.img }}" />
+	    <p class="play-title"><span>{{ post.title }}</span></p>
+	    <p class="play-date"><span>{{ post.date | date: "%b %-d, %Y" }}</span></p>
+	</a>
+	{% include category_links.html %}
+</div>

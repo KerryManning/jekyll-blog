@@ -1,0 +1,19 @@
+{% if post.categories %}
+{% assign catscount = (post.categories | size) | minus:1 %}
+	<p class="play-cats">
+		{% assign x = 0 %}
+		{% for category in post.categories %}
+		{% if x == catscount %}
+		  <a href="#{{ category | remove:' ' }}">
+		  {{category}}
+		  </a>
+		{% else %}
+			<a href="#{{ category | remove:' ' }}">
+		  {{category}}
+		  </a>
+		  <span> // </span>
+		{% endif %}
+		{% assign x = x | plus: 1 %}
+		{% endfor %}
+	</p>
+{% endif %}

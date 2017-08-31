@@ -1,0 +1,18 @@
+  <!-- navigation links to category #id sections of page -->
+  <nav>
+  	{% if current_cat == "allposts" %}
+    	<a href="#allposts" class="active_cat">All Posts </a><span> //&nbsp;&nbsp;&nbsp;</span> 
+  	{% else %}
+    	<a href="#allposts">All Posts  </a><span> //&nbsp;&nbsp;&nbsp;<span> 
+  	{% endif %}
+    {% for category in site.categories %}
+    	{% assign this_cat = category | first | remove: ' ' %}
+    	{% if this_cat == current_cat %}
+    	<a href="#{{ this_cat }}" class="active_cat">{{ this_cat }}
+    	{% else %}
+        <a href="#{{ this_cat }}">{{ this_cat }} 
+        {% endif %}
+        </a>
+        {% if forloop.last %}{% else %}<span> //&nbsp;&nbsp;&nbsp;</span>{% endif %}
+    {% endfor %}
+  </nav>

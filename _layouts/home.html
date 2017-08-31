@@ -1,0 +1,98 @@
+---
+layout: default
+
+---
+
+<div class="blog-home">
+
+  <!-- set number of grid columns for medium+ pages -->
+  {% assign grid_cols = 3 %}
+
+  <!-- generate a grid of thumbnail links for each individual category #id -->
+  {% for category in site.categories %}
+    <div class="catbloc cat" id="{{ category | first | remove:' ' }}">
+      <div class="row collapse"   data-equalizer data-equalize-by-row="true">
+        <div class="page-heading">
+          {% assign current_cat = category | first %}
+          
+          {% include category_nav_links.html %}
+        </div>
+
+        {% for posts in category offset:1 %}
+        {% assign catcount = posts | size %}
+        {% assign zero_index_catcount = catcount | minus: 1 %}
+        {% assign c = 0 %}
+
+          {% for post in posts %}
+            {% assign cattomod = c |modulo:grid_cols %}
+              {% if c == zero_index_catcount %}
+                <div class="small-12 medium-4 columns end data-equalizer-watch">
+              {% else %}
+                <div class="small-12 medium-4 columns data-equalizer-watch">
+              {% endif %}
+                {% include thumbnail_html.html %}
+                {% assign c = c | plus: 1%}
+                </div>
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+
+
+  <!-- generate full list of all posts from all categories, inside #allposts div -->
+  {% assign posts_sorted =  site.posts | sort:'date' %}
+  {% assign posts_reversed = posts_sorted | reverse %}
+  <div class="catbloc" id="allposts">
+    <div class="row collapse">
+      <div class="page-heading">  
+        {% assign current_cat = "allposts" %}
+        {% include category_nav_links.html %}
+      </div>
+    </div>
+
+    <!-- give latest post a full row -->
+    {% for post in posts_reversed limit:1 %}
+      <div class="row collapse">
+        <div class="small-12 columns"> 
+          <div class="play-thumb" >
+            <a href="{{ post.url | relative_url }}">
+                <img src="{{ site.baseurl }}{{ post.img }}" />
+                <p class="play-title"><span>LATEST POST: {{ post.title }}</span></p>
+                <p class="play-date"><span>{{ post.date | date: "%b %-d, %Y" }}</span></p>
+            </a>
+            {% include category_links.html %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+    
+    <!-- all other posts presented in 3 column grid -->
+    {% assign i = 0 %}
+    {% assign count = (posts_sorted | size) | minus: 2 %}
+    {% for post in posts_reversed offset:1 %}
+      
+      {% assign tomodulo = i | modulo:grid_cols %}
+      {% if tomodulo == 0 %}
+      <div class="row collapse" data-equalizer data-equalize-by-row="true">
+      {% endif %} 
+
+      {% if i == count %}
+        <div class="small-12 medium-4 columns end data-equalizer-watch">
+      {% else %}
+        <div class="small-12 medium-4 columns data-equalizer-watch">
+      {% endif %}
+          {% include thumbnail_html.html %}
+        </div>
+
+      {% assign i = i | plus: 1 %}
+      
+      {% assign tomodulo2 = i | modulo:grid_cols %}
+      {% if tomodulo2 == 0 %}
+      </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+</div>
